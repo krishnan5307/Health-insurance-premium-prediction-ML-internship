@@ -1,7 +1,7 @@
 columns:
-  age: float
+  age: int
+  children: int
   bmi: float
-  children: float
   expenses: float
   sex: category
   smoker: category
