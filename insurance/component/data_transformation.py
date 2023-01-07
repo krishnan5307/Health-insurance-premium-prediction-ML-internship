@@ -17,34 +17,24 @@ from insurance.constant import *
 from insurance.util.util import read_yaml_file,save_object,save_numpy_array_data,load_data
 
 
-#   longitude: float
-#   latitude: float
-#   housing_median_age: float
-#   total_rooms: float
-#   total_bedrooms: float
-#   population: float
-#   households: float
-#   median_income: float
-#   median_house_value: float
-#   ocean_proximity: category
-#   income_cat: float
 
 
-class FeatureGenerator(BaseEstimator, TransformerMixin):
+"""
+class FeatureGenerator(BaseEstimator, TransformerMixin):              ## inheriting classes
 
     def __init__(self, add_bedrooms_per_room=True,
                  total_rooms_ix=3,
-                 population_ix=5,
+                 population_ix=5,                                      ## initial initializations
                  households_ix=6,
                  total_bedrooms_ix=4, columns=None):
-        """
-        FeatureGenerator Initialization
-        add_bedrooms_per_room: bool
-        total_rooms_ix: int index number of total rooms columns
-        population_ix: int index number of total population columns
-        households_ix: int index number of  households columns
-        total_bedrooms_ix: int index number of bedrooms columns
-        """
+
+        ##FeatureGenerator Initialization
+        ##add_bedrooms_per_room: bool
+        ##total_rooms_ix: int index number of total rooms columns
+        ##population_ix: int index number of total population columns
+        ##households_ix: int index number of  households columns
+        ##total_bedrooms_ix: int index number of bedrooms columns
+    
         try: 
             self.columns = columns
             if self.columns is not None:
@@ -60,6 +50,8 @@ class FeatureGenerator(BaseEstimator, TransformerMixin):
             self.total_bedrooms_ix = total_bedrooms_ix
         except Exception as e:
             raise InsuranceException(e, sys) from e
+ 
+
 
     def fit(self, X, y=None):
         return self
@@ -70,7 +62,7 @@ class FeatureGenerator(BaseEstimator, TransformerMixin):
                                                          ##dividing one entire column with other
             population_per_household = X[:, self.population_ix] / \
                                        X[:, self.households_ix]
-            if self.add_bedrooms_per_room:
+            if self.add_bedrooms_per_room:                                   ## if true as per above initialization
                 bedrooms_per_room = X[:, self.total_bedrooms_ix] / \
                                     X[:, self.total_rooms_ix]
                 generated_feature = np.c_[                              ### joiinng all columns with new 
@@ -83,7 +75,7 @@ class FeatureGenerator(BaseEstimator, TransformerMixin):
         except Exception as e:
             raise InsuranceException(e, sys) from e
 
-
+"""
 
 
 
@@ -106,7 +98,7 @@ class DataTransformation:
 
     def get_data_transformer_object(self)->ColumnTransformer:  ## returns tha preprocessing pickle file s
         try:
-            schema_file_path = self.data_validation_artifact.schema_file_path
+            schema_file_path = self.data_validation_artifact.schema_file_path      ##schema.yaml file
 
             dataset_schema = read_yaml_file(file_path=schema_file_path)
 
@@ -116,12 +108,10 @@ class DataTransformation:
 
             num_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy="median")),
-                ('feature_generator', FeatureGenerator(
-                    add_bedrooms_per_room=self.data_transformation_config.add_bedroom_per_room,
-                    columns=numerical_columns
-                )),
-                ('scaler', StandardScaler())
-            ]
+                ## ('feature_generator', FeatureGenerator(
+                ##    add_bedrooms_per_room=self.data_transformation_config.add_bedroom_per_room,
+                ##    columns=numerical_columns )),
+                ('scaler', StandardScaler())            ]
             )
 
             cat_pipeline = Pipeline(steps=[

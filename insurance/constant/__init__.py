@@ -71,7 +71,7 @@ NUMERICAL_COLUMN_KEY="numerical_columns"
 CATEGORICAL_COLUMN_KEY = "categorical_columns"
 
 
-TARGET_COLUMN_KEY="target_column"
+TARGET_COLUMN_KEY="target_column"                 ## present in schemal.yaml
 
 
 # Model Training related variables
