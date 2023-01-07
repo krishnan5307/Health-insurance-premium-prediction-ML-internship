@@ -1,7 +1,7 @@
 import os
 import sys
 
-class HousingException(Exception):
+class InsuranceException(Exception):
 
     def __init__(self, error_message:Exception, error_detail:sys):   ## creating object of exception as error messgage and sys module as error detail
         super().__init__(error_message)   ### or Exception(error_message)     
@@ -30,7 +30,7 @@ class HousingException(Exception):
         return self.error_message
 
     def __repr__(self) -> str:  ## this repr() will return something if obhject of calss is called
-        return HousingException.__name__.__str()
+        return InsuranceException.__name__.__str()
 
 
 

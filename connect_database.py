@@ -1,7 +1,8 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import dict_factory
-import logging
+from insurance.exception import InsuranceException
+import logging,sys
 
        
 cloud_config= {
@@ -17,22 +18,24 @@ session = cluster.connect()
 class connect_database:
 
       
-      def __init__(self):
-            self.cloud_config= cloud_config
-            self.auth_provider= auth_provider
-            self.cluster = cluster
-            self.session = session
+      def __init__(self):            
+            try:
+                  self.cloud_config= cloud_config
+                  self.auth_provider= auth_provider
+                  self.cluster = cluster
+                  self.session = session
+
+            except Exception as e:
+                  raise InsuranceException(e,sys) from e      
 
       def get_db_connection(self) -> session:
-            self.session.row_factory = dict_factory
-            return self.session
+            try:
+                  self.session.row_factory = dict_factory
+                  row = session.execute("select release_version from system.local").one()
+                  if row:
+                        logging.info(f"Successfully connected to cassandra database: 'health-insurance-premium-prediction' :[{row[0]}]")  
+                  return self.session
             
-                     
-
-row = session.execute("select release_version from system.local").one()
-if row:
-      logging.info(f"Successfully connected to cassandra database: 'health-insurance-premium-prediction' :[{row[0]}]")   
-     
-else:
-      logging.info(f"error occured while connecting to database")   
-
+            except Exception as e:
+                  logging.info(f"error occured while connecting to database")
+                  raise InsuranceException(e,sys) from e         
