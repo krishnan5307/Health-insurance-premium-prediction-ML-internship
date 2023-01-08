@@ -11,8 +11,8 @@ from insurance.entity.model_factory import evaluate_regression_model
 
 
 
-class HousingEstimatorModel:
-    def __init__(self, preprocessing_object, trained_model_object):
+class PremiumEstimatorModel:
+    def __init__(self, preprocessing_object, trained_model_object):  ## for feature engg the dataset and model training with dataset
         """
         TrainedModel constructor
         preprocessing_object: preprocessing_object
@@ -92,9 +92,9 @@ class ModelTrainer:
 
 
             trained_model_file_path=self.model_trainer_config.trained_model_file_path
-            housing_model = HousingEstimatorModel(preprocessing_object=preprocessing_obj,trained_model_object=model_object) ## Housing model is final for deploying in prodution
+            premium_model = PremiumEstimatorModel(preprocessing_object=preprocessing_obj,trained_model_object=model_object) ## Housing model is final for deploying in prodution
             logging.info(f"Saving model at path: {trained_model_file_path}")    ## saving both preprocessing obj and model obj together as final housing obj
-            save_object(file_path=trained_model_file_path,obj=housing_model)
+            save_object(file_path=trained_model_file_path,obj=premium_model)
 
 
             model_trainer_artifact=  ModelTrainerArtifact(is_trained=True,message="Model Trained successfully",
