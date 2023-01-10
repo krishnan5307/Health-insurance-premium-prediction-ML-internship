@@ -73,6 +73,7 @@ class Pipeline(Thread):
             )
             return data_transformation.initiate_data_transformation()
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys)
 
     def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
@@ -95,6 +96,7 @@ class Pipeline(Thread):
                 model_trainer_artifact=model_trainer_artifact)
             return model_eval.initiate_model_evaluation()
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys) from e
 
     def start_model_pusher(self, model_eval_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
@@ -130,7 +132,7 @@ class Pipeline(Thread):
                                              accuracy=None,
                                              )
             logging.info(f"Pipeline experiment: {Pipeline.experiment}")
-
+            print("Pipeline experiment")
             self.save_experiment()
 
             data_ingestion_artifact = self.start_data_ingestion()

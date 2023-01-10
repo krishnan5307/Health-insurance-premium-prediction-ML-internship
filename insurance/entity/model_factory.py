@@ -119,6 +119,7 @@ def evaluate_regression_model(model_list: list, X_train:np.ndarray, y_train:np.n
             logging.info(f"No model found with higher accuracy than base accuracy")
         return metric_info_artifact
     except Exception as e:
+        print(e)
         raise InsuranceException(e, sys) from e
 
 

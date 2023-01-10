@@ -1,6 +1,6 @@
 from flask import Flask, request
 import sys
-
+import numpy as np, pandas as pd
 import pip
 from insurance.util.util import read_yaml_file, write_yaml_file
 from matplotlib.style import context
@@ -66,7 +66,7 @@ def predict():
     }
 
     if request.method == 'POST':
-       
+           
 
         age = int(request.form['age'])
         children = int(request.form['children'])
@@ -74,18 +74,15 @@ def predict():
         sex = request.form['sex']
         smoker = request.form['smoker']
         region = request.form['region']
-        expenses = float(request.form['expenses'])
-
         insurance_data = InsuranceData(age = age,
                                      children = children,
                                      bmi = bmi,
                                      sex = sex,
                                      smoker = smoker,
                                      region = region,
-                                     expenses = expenses,
-                                     ) 
+                                       ) 
         
-        insurance_df = insurance_data.get_insurance_input_data_frame()  ## calling function inside hosuing class
+        insurance_df = insurance_data.get_insurance_input_data_frame() ## calling function inside hosuing class
         premium_predictor = InsurancePredictor(model_dir=MODEL_DIR)      ## creating an object with intialization as model_dir
         expenses = premium_predictor.predict(X=insurance_df)   ## using the above obj to do preiction
         context = {
@@ -127,4 +124,4 @@ def saved_models_dir(req_path):
 
 
 if __name__ == "__main__":
-    app.run( debug=True)
+    app.run(debug=True)

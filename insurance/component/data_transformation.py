@@ -19,63 +19,62 @@ from insurance.util.util import read_yaml_file,save_object,save_numpy_array_data
 
 
 
-"""
+
 class FeatureGenerator(BaseEstimator, TransformerMixin):              ## inheriting classes
 
-    def __init__(self, add_bedrooms_per_room=True,
-                 total_rooms_ix=3,
-                 population_ix=5,                                      ## initial initializations
-                 households_ix=6,
-                 total_bedrooms_ix=4, columns=None):
+    def __init__(self,age_ix=3,children_ix=5,columns=None):
 
-        ##FeatureGenerator Initialization
-        ##add_bedrooms_per_room: bool
-        ##total_rooms_ix: int index number of total rooms columns
-        ##population_ix: int index number of total population columns
-        ##households_ix: int index number of  households columns
-        ##total_bedrooms_ix: int index number of bedrooms columns
-    
-        try: 
+        try:            
             self.columns = columns
-            if self.columns is not None:
-                total_rooms_ix = self.columns.index(COLUMN_TOTAL_ROOMS)
-                population_ix = self.columns.index(COLUMN_POPULATION)
-                households_ix = self.columns.index(COLUMN_HOUSEHOLDS)
-                total_bedrooms_ix = self.columns.index(COLUMN_TOTAL_BEDROOM)
+            if self.columns is not None:                                               
+                age_ix = self.columns.index(COLUMN_AGE)
+                children_ix = self.columns.index(COLUMN_CHILDREN)
+            else:
+                self.age_ix = age_ix
+                age_ix= self.age_ix
+                self.children_ix = children_ix
+                children_ix=self.children_ix
 
-            self.add_bedrooms_per_room = add_bedrooms_per_room
-            self.total_rooms_ix = total_rooms_ix
-            self.population_ix = population_ix
-            self.households_ix = households_ix
-            self.total_bedrooms_ix = total_bedrooms_ix
+            self.age_ix = age_ix
+            self.children_ix = children_ix  
+          
+
         except Exception as e:
             raise InsuranceException(e, sys) from e
  
 
 
     def fit(self, X, y=None):
+
+        #return X
         return self
 
     def transform(self, X, y=None):
         try:
-            room_per_household = X[:, self.total_rooms_ix] / X[:, self.households_ix]   
-                                                         ##dividing one entire column with other
-            population_per_household = X[:, self.population_ix] / \
-                                       X[:, self.households_ix]
-            if self.add_bedrooms_per_room:                                   ## if true as per above initialization
-                bedrooms_per_room = X[:, self.total_bedrooms_ix] / \
-                                    X[:, self.total_rooms_ix]
-                generated_feature = np.c_[                              ### joiinng all columns with new 
-                    X, room_per_household, population_per_household, bedrooms_per_room]
-            else:
-                generated_feature = np.c_[ 
-                    X, room_per_household, population_per_household]
+            children_age_ratio = X[:, self.children_ix] / \
+                                 X[:, self.age_ix]   
+            # #                                              ##dividing one entire column with other
+            # # ##population_per_household = X[:, self.population_ix] / \
+            # #  ##                          X[:, self.households_ix]
+            # # ##if self.add_bedrooms_per_room:                                   ## if true as per above initialization
+            # #     bedrooms_per_room = X[:, self.total_bedrooms_ix] / \
+            # #                         X[:, self.total_rooms_ix]
+            # #     generated_feature = np.c_[                              ### joiinng all columns with new 
+            # #         X, bmi_age_ratio, population_per_household, bedrooms_per_room]
+            # # else:
+            generated_feature = np.c_[ 
+                    X, children_age_ratio]
+
+            # generated_feature = np.c_[ 
+            #         X]
 
             return generated_feature
+            ##return X
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys) from e
 
-"""
+
 
 
 
@@ -104,14 +103,17 @@ class DataTransformation:
 
             numerical_columns = dataset_schema[NUMERICAL_COLUMN_KEY]
             categorical_columns = dataset_schema[CATEGORICAL_COLUMN_KEY]
+            columns = dataset_schema[COLUMNS]
+            columns_input = dataset_schema[COLUMNS_INPUT]
 
 
             num_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy="median")),
-                ## ('feature_generator', FeatureGenerator(
-                ##    add_bedrooms_per_room=self.data_transformation_config.add_bedroom_per_room,
-                ##    columns=numerical_columns )),
-                ('scaler', StandardScaler())            ]
+                  ('feature_generator', FeatureGenerator(
+                   columns= numerical_columns
+                     )),
+                ('scaler', StandardScaler())
+            ]
             )
 
             cat_pipeline = Pipeline(steps=[
@@ -126,8 +128,9 @@ class DataTransformation:
 
 
             preprocessing = ColumnTransformer([
-                ('num_pipeline', num_pipeline, numerical_columns),
                 ('cat_pipeline', cat_pipeline, categorical_columns),
+                ('num_pipeline', num_pipeline, numerical_columns),
+                
             ])
             return preprocessing
 
@@ -151,10 +154,13 @@ class DataTransformation:
             schema_file_path = self.data_validation_artifact.schema_file_path
             
             logging.info(f"Loading training and test data as pandas dataframe.")
+            
+            
+            ## getting data frame from the .csv in ingestion folder for transformation
 
             train_df = load_data(file_path=train_file_path, schema_file_path=schema_file_path)    ## loading data using utility functions
-            
             test_df = load_data(file_path=test_file_path, schema_file_path=schema_file_path)
+
 
             schema = read_yaml_file(file_path=schema_file_path)  ## getting schema
 
@@ -172,12 +178,13 @@ class DataTransformation:
 
             logging.info(f"Applying preprocessing object on training dataframe and testing dataframe")
 
-            input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)    ## fit and trasfrom input train features
+            input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)    ## fit and trasfrom input train features
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)       ## trasfrom input test features
 
-
-            train_arr = np.c_[ input_feature_train_arr, np.array(target_feature_train_df)]    ##trasfromed train df 
-
+            ##train_arr = np.c_[input_feature_train_df, np.array(target_feature_train_df)]
+            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]    ##trasfromed train df 
+            
+            ##test_arr = np.c_[input_feature_test_df, np.array(target_feature_test_df)] 
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]          ##transormded test df 
             
             transformed_train_dir = self.data_transformation_config.transformed_train_dir
@@ -211,8 +218,8 @@ class DataTransformation:
             logging.info(f"Data transformationa artifact: {data_transformation_artifact}")
             return data_transformation_artifact
         except Exception as e:
+            print(e)
             raise InsuranceException(e,sys) from e
 
     def __del__(self):
         logging.info(f"{'>>'*30}Data Transformation log completed.{'<<'*30} \n\n")
-3

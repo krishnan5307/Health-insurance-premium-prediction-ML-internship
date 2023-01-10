@@ -10,6 +10,7 @@ from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
 from evidently.dashboard import Dashboard
 from evidently.dashboard.tabs import DataDriftTab
+from insurance.constant import *
 import json
 
 class DataValidation:

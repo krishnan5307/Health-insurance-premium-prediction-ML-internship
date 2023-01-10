@@ -154,6 +154,7 @@ class ModelEvaluation:
                                                                     is_model_accepted=False)
             return model_evaluation_artifact
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys) from e
 
     def __del__(self):

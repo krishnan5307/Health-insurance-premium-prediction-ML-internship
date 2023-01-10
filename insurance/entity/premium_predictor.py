@@ -5,6 +5,7 @@ from insurance.exception import InsuranceException
 from insurance.util.util import load_object
 
 import pandas as pd
+import numpy as np
 
 
 class InsuranceData:
@@ -34,7 +35,9 @@ class InsuranceData:
 
         try:
             insuarnce_input_dict = self.get_insurance_data_as_dict()
-            return pd.DataFrame(insuarnce_input_dict)
+            df= pd.DataFrame(insuarnce_input_dict)
+            return df
+
         except Exception as e:
             raise InsuranceException(e, sys) from e
 
@@ -47,8 +50,7 @@ class InsuranceData:
                 "sex": [self.sex],
                 "smoker": [self.smoker],
                 "region": [self.region],
-                "expenses": [self.expenses],
-             }
+                             }
             return input_data
         except Exception as e:
             raise InsuranceException(e, sys)

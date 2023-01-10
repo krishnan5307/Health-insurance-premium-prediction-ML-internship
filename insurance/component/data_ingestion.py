@@ -8,8 +8,8 @@ import numpy as np
 ## import urllib
 import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
-from connect_database import connect_database
-from insurance import constant
+from insurance.constant import *
+from config import configuration
 
 class DataIngestion:
 
@@ -17,7 +17,8 @@ class DataIngestion:
         try:                                                        # ie we pass congif info while calling this class DataIngestion in pipleine
             logging.info(f"{'>>'*20}Data Ingestion log started.{'<<'*20} ")
             self.data_ingestion_config = data_ingestion_config
-            self.database_connection = connect_database()
+           ## self.database_connection = connect_database()
+            self.database_connection = configuration()
         except Exception as e:
             raise InsuranceException(e,sys)
     
@@ -27,17 +28,27 @@ class DataIngestion:
 
             #from cassandra database using connction variable to download dataset to dataframe and later to csv
             download_url = self.data_ingestion_config.dataset_download_url
+            # logging.info(f"connction sent to connect_databsae.py file")
 
-            session = self.database_connection.get_db_connection()
-
-            sql_query = "SELECT * FROM {}.{};".format(constant.CASSANDRA_KEYSPACE, constant.CASSANDRA_TABLE)
-            df = pd.DataFrame()
-            for row in session.execute(sql_query):
-                    df = df.append(pd.DataFrame(row, index=[0]))
-
-
-            df = df.reset_index(drop=True).fillna(pd.np.nan)
+            # session = self.database_connection.get_db_connection()
             
+            # sql_query = "SELECT * FROM {}.{};".format(constant.CASSANDRA_KEYSPACE, constant.CASSANDRA_TABLE)
+            # df = pd.DataFrame()
+            # for row in session.execute(sql_query):
+            #         df = df.append(pd.DataFrame(row, index=[0]))
+
+            # session.shutdown()
+
+            # df = df.reset_index(drop=True).fillna(pd.np.nan)
+            df = self.database_connection.get_configuration()
+
+
+            # df = pd.DataFrame()
+            # df = pd.read_csv("dataset/insurance.csv")
+            
+
+
+
 
             #folder location to download file
             tgz_download_dir = self.data_ingestion_config.tgz_download_dir
@@ -56,6 +67,7 @@ class DataIngestion:
             return tgz_file_path
 
         except Exception as e:
+            print(e)
             raise InsuranceException(e,sys) from e
 
             """

@@ -4,6 +4,7 @@ import os,sys
 import numpy as np
 import dill
 import pandas as pd
+import numpy as  np
 from insurance.constant import *
 
 
@@ -59,6 +60,7 @@ def load_numpy_array_data(file_path: str) -> np.array:
         with open(file_path, 'rb') as file_obj:
             return np.load(file_obj)
     except Exception as e:
+        print(e)
         raise InsuranceException(e, sys) from e
 
 

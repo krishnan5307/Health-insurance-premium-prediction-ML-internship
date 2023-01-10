@@ -26,9 +26,16 @@ class PremiumEstimatorModel:
         function accepts raw inputs and then transformed raw input using preprocessing_object
         which gurantees that the inputs are in the same format as the training data
         At last it perform prediction on transformed features
+        
         """
-        transformed_feature = self.preprocessing_object.transform(X)
-        return self.trained_model_object.predict(transformed_feature)
+        try:
+            
+            transformed_feature = self.preprocessing_object.transform(X)
+            return self.trained_model_object.predict(transformed_feature)
+        except Exception as e:
+            print("prediction  and model evaluation failed")
+            print(e)
+            raise InsuranceException(e, sys) from e    
 
     def __repr__(self):
         return f"{type(self.trained_model_object).__name__}()"
@@ -53,14 +60,14 @@ class ModelTrainer:
         try:
             logging.info(f"Loading transformed training dataset")
             transformed_train_file_path = self.data_transformation_artifact.transformed_train_file_path
-            train_array = load_numpy_array_data(file_path=transformed_train_file_path)
+            train_array = load_numpy_array_data(file_path=transformed_train_file_path) ## getting as np.array from transfromed file path
 
             logging.info(f"Loading transformed testing dataset")
             transformed_test_file_path = self.data_transformation_artifact.transformed_test_file_path
-            test_array = load_numpy_array_data(file_path=transformed_test_file_path)
+            test_array = load_numpy_array_data(file_path=transformed_test_file_path)    ## getting as np.array from transfromed file path
 
             logging.info(f"Splitting training and testing input and target feature")
-            x_train,y_train,x_test,y_test = train_array[:,:-1],train_array[:,-1],test_array[:,:-1],test_array[:,-1]
+            x_train,y_train,x_test,y_test = train_array[:,:-1],train_array[:,-1],test_array[:,:-1],test_array[:,-1]   ## modeifiyng
             
 
             logging.info(f"Extracting model config file path") 
@@ -83,7 +90,12 @@ class ModelTrainer:
             
             model_list = [model.best_model for model in grid_searched_best_model_list ]
             logging.info(f"Evaluation all trained model on training and testing dataset both")
-            metric_info:MetricInfoArtifact = evaluate_regression_model(model_list=model_list,X_train=x_train,y_train=y_train,X_test=x_test,y_test=y_test,base_accuracy=base_accuracy)
+            metric_info:MetricInfoArtifact = evaluate_regression_model(model_list=model_list,
+                                                                        X_train=x_train,
+                                                                        y_train=y_train,
+                                                                        X_test=x_test,
+                                                                        y_test=y_test,
+                                                                        base_accuracy=base_accuracy)
                                                                          ## most generalised model is slected, train and test data accuracy is nearby value , etc
             logging.info(f"Best found model on both training and testing dataset.")
             

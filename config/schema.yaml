@@ -6,13 +6,19 @@ columns:
   sex: category
   smoker: category
   region: category
-  
+
+columns_input:
+  age: int
+  children: int
+  bmi: float
+  sex: category
+  smoker: category
+  region: category  
 
 numerical_columns:
   - age
   - bmi
   - children
-  - expenses
  
 categorical_columns:
   - sex
