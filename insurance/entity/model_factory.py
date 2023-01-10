@@ -324,6 +324,7 @@ class ModelFactory:
                 self.grid_searched_best_model_list.append(grid_searched_best_model)
             return self.grid_searched_best_model_list
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys) from e
 
     @staticmethod

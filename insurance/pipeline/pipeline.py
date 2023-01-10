@@ -83,6 +83,7 @@ class Pipeline(Thread):
                                          )
             return model_trainer.initiate_model_trainer()
         except Exception as e:
+            print(e)
             raise InsuranceException(e, sys) from e
 
     def start_model_evaluation(self, data_ingestion_artifact: DataIngestionArtifact,
