@@ -60,14 +60,14 @@ def train():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    context = {
+    context = {                               ## declared outside of request.method for to be used both after and before submiting form and view html predict.html
         INSURANCE_DATA_KEY: None,
         EXPENSES_VALUE_KEY: None
     }
 
-    if request.method == 'POST':
-           
-
+    if request.method == 'POST':      ## accessed when html form sends request while submiting form 
+                                      ## html form has inbuilt request sending methods Post, Get etc and action(eg - /predict)
+                                      ## Corresponds to the HTTP POST or GET method; form data are included in the body of the form and sent to the server.
         age = int(request.form['age'])
         children = int(request.form['children'])
         bmi = float(request.form['bmi'])
@@ -90,7 +90,7 @@ def predict():
             EXPENSES_VALUE_KEY: expenses,
         }
         return render_template('predict.html', context=context)
-    return render_template("predict.html", context=context)
+    return render_template("predict.html", context=context)     ## to display html when  '/predict'
 
 
 @app.route('/saved_models', defaults={'req_path': 'saved_models'})
