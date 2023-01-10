@@ -4,9 +4,15 @@ The goal of this project is to give people an estimate of how much they need bas
 **Screenshots**: 
 
 
-1.Training the model:
+1.a) Training the model:
 
 ![image](https://user-images.githubusercontent.com/69358581/211560642-00a219f2-3fcb-4db3-b689-7c2d20d649d7.png)
+
+
+  b) Retraining model with more ensemble-boosting algorithms such as Adaboost and Gradient boosting to improve accuracy of the model
+  
+  ![image](https://user-images.githubusercontent.com/69358581/211629081-ae13ffdc-e722-4838-aa70-e4be328fa8ad.png)
+
 
 
 
