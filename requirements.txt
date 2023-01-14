@@ -3,7 +3,7 @@ pandas
 numpy 
 Flask
 gunicorn
-sklearn
+scikit-learn
 pandas
 -e .
 ipykernel
@@ -13,3 +13,4 @@ matplotlib
 PyYAML
 urllib3
 six
+cassandra-driver
