@@ -3,7 +3,7 @@ pandas
 numpy 
 Flask
 gunicorn
-scikit-learn
+scikit-learn==1.0.2
 pandas
 -e .
 ipykernel

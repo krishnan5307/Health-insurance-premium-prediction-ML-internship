@@ -40,17 +40,23 @@ class DataIngestion:
             # session.shutdown()
 
             # df = df.reset_index(drop=True).fillna(pd.np.nan)
+            #df = configuration.start()
+
             df = self.database_connection.get_configuration()
+
+            
 
 
             # df = pd.DataFrame()
             # df = pd.read_csv("dataset/insurance.csv")
             
 
-
+            #df = pd.read_csv(r"insurance\dataset\dataset.csv",delimiter=",")
 
 
             #folder location to download file
+        
+
             tgz_download_dir = self.data_ingestion_config.tgz_download_dir
             
             os.makedirs(tgz_download_dir,exist_ok=True)

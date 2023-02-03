@@ -4,17 +4,20 @@ from cassandra.query import dict_factory
 import pandas as pd
 
 
-class configuration:
+
+class configuration():
 
     
     def __init__(self):
         self.cluster = Cluster
         self.PlainTextAuthProvider = PlainTextAuthProvider
         self.dict_factory = dict_factory
+  
 
     def get_configuration(self) -> pd.DataFrame:
 
         try:
+            
             
             print("Connecting to Cassandra Database: health-insurance-premium-prediction")
             cloud_config =  {
@@ -43,5 +46,16 @@ class configuration:
             session.shutdown()
             return data
 
+            
+            
+            
+            
+            
         except Exception as e:
-            print(e)    
+            print(e)  
+
+    # def run(self):    ## calling the thread
+    #     try:
+    #         self.get_configuration()
+    #     except Exception as e:
+    #         raise e          
