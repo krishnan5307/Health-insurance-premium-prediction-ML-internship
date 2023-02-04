@@ -1,7 +1,7 @@
 setuptools
 pandas
 numpy 
-Flask
+Flask==2.2.2
 gunicorn
 scikit-learn==1.0.2
 pandas
