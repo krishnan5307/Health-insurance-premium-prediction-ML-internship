@@ -12,7 +12,7 @@ COPY . .
 
 # Create the virtual environment and install the packages
 RUN python3 -m venv env
-#RUN /app/env/bin/python3 -m pip install --upgrade pip
+RUN /app/env/bin/python3 -m pip install --upgrade pip
 RUN env/bin/pip install --no-cache-dir -r requirements.txt
 
 # Set the command to run when the container starts
