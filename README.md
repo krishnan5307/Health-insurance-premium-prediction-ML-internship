@@ -25,3 +25,16 @@ The goal of this project is to give people an estimate of how much they need bas
 
 3.Data drift report using Evidently DataDriftProfileSection framework
 ![image](https://user-images.githubusercontent.com/69358581/211611436-47c05d19-1a6b-4634-a5b5-4a72e9b518e4.png)
+
+
+4.CICD deployment to AWS-ECR-EC2
+![image](https://user-images.githubusercontent.com/69358581/216830773-b8cc24ce-4ecb-4355-b45d-90061ee6bd74.png)
+
+
+5.Image uploaded in AWS ECR-repo
+![image](https://user-images.githubusercontent.com/69358581/216830819-b30783e1-8845-4b56-9467-46e024a9b25b.png)
+
+
+6.Code in Vscode.
+![image](https://user-images.githubusercontent.com/69358581/216830868-c0145582-9c3a-44ba-b9c2-8a00819bfa69.png)
+
