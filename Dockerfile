@@ -2,7 +2,7 @@
 FROM python:3.7.16
 
 # Create a non-root user to run the application
-RUN adduser -D myuser
+RUN adduser --disabled-password --gecos "" myuser
 
 # Set the working directory in the container to /app
 WORKDIR /app
