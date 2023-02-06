@@ -15,25 +15,26 @@ https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction
 Technical Aspect
 The project was built in two phases and the process is as follows:
 
-Process Phase:
+Process Phase:-->
 
-Importing Libraries.
-Loading Dataset.
-Performing Data Analysis
-Feature Engineering
-Data Pre-processing
-Model Selection
-Model Trainig
-Model Evalution
-Model Saving
+Importing Libraries-
+Loading Dataset-
+Performing Data Analysis-
+Feature Engineering-
+Data Pre-processing-
+Model Selection-
+Model Trainig-
+Model Evalution-
+Model Saving-
 Deployment Phase:
 
-Run the application built using flask webframework.
-Load Model
-Render HTML frontend
-Receive Input
-Data Preprocessing
-Prediction
+Run the application built using flask webframework :--->
+
+Load Model-
+Render HTML frontend-
+Receive Input-
+Data Preprocessing-
+Prediction-
 Display Results.
 
 
