@@ -6,7 +6,7 @@ The goal of this project is to give people an estimate of how much they need bas
 
 **Screenshots**: 
 
-uploading the data from link to cassandra database
+uploading the data from link to cassandra database for later to be pulled from the DB during training the model
 https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction
 
 ![image](https://user-images.githubusercontent.com/69358581/216957674-75b77441-5436-49e5-8b05-2b2fbe5d24c0.png)
