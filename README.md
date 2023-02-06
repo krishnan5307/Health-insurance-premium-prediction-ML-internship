@@ -1,7 +1,41 @@
 # Health-insurance-premium-prediction-ML-internship
+
+
+
 The goal of this project is to give people an estimate of how much they need based on their individual health situation. After that, customers can work with any health insurance carrier and its plans and perks while keeping the projected cost from our study in mind.
 
 **Screenshots**: 
+
+uploading the data from link to cassandra database
+https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction
+
+![image](https://user-images.githubusercontent.com/69358581/216957674-75b77441-5436-49e5-8b05-2b2fbe5d24c0.png)
+
+
+Technical Aspect
+The project was built in two phases and the process is as follows:
+
+Process Phase:
+
+Importing Libraries.
+Loading Dataset.
+Performing Data Analysis
+Feature Engineering
+Data Pre-processing
+Model Selection
+Model Trainig
+Model Evalution
+Model Saving
+Deployment Phase:
+
+Run the application built using flask webframework.
+Load Model
+Render HTML frontend
+Receive Input
+Data Preprocessing
+Prediction
+Display Results.
+
 
 
 1.a) Training the model:
