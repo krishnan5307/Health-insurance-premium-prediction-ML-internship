@@ -14,3 +14,4 @@ PyYAML
 urllib3
 six
 cassandra-driver
+mlflow

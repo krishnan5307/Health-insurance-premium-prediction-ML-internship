@@ -8,7 +8,8 @@ import pandas as pd
 import numpy as np
 
 
-class InsuranceData:
+class InsuranceData: 
+        
 
     def __init__(self,
 
@@ -19,7 +20,7 @@ class InsuranceData:
                   smoker: str,
                   region: str,
                   expenses: float =None,
-                  ):         
+                  ):           
         try:
             self.age = age
             self.children = children
@@ -66,7 +67,7 @@ class InsurancePredictor:
 
     def get_latest_model_path(self):
         try:
-            folder_name = list(map(int, os.listdir(self.model_dir)))
+            folder_name = list(map(int, os.listdir(self.model_dir))) # function is int() and iterable is list of dir
             latest_model_dir = os.path.join(self.model_dir, f"{max(folder_name)}")
             file_name = os.listdir(latest_model_dir)[0]
             latest_model_path = os.path.join(latest_model_dir, file_name)

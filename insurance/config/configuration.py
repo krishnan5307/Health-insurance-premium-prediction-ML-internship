@@ -158,7 +158,7 @@ class Configuartion:                  ## The strucutre definition of entity clas
             model_trainer_artifact_dir=os.path.join( 
                 artifact_dir,
                 MODEL_TRAINER_ARTIFACT_DIR,
-                self.time_stamp
+                self.time_stamp   ## this time stamp can be useful while fetchnig latest model during input prediction from user
 
             )
             model_trainer_config_info = self.config_info[MODEL_TRAINER_CONFIG_KEY]
@@ -207,7 +207,8 @@ class Configuartion:                  ## The strucutre definition of entity clas
             time_stamp = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
             model_pusher_config_info = self.config_info[MODEL_PUSHER_CONFIG_KEY]
             export_dir_path = os.path.join(ROOT_DIR, model_pusher_config_info[MODEL_PUSHER_MODEL_EXPORT_DIR_KEY],
-                                           time_stamp)
+                                           time_stamp) 
+            ## C:\Users\krish\Health-insurance-premium-prediction-ML-internship\saved_models\20230203141600
 
             model_pusher_config = ModelPusherConfig(export_dir_path=export_dir_path)
             logging.info(f"Model pusher config {model_pusher_config}")

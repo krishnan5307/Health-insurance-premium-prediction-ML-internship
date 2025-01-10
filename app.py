@@ -60,21 +60,27 @@ def train():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    context = {                               ## declared outside of request.method for to be used both after and before submiting form and view html predict.html
-        INSURANCE_DATA_KEY: None,
-        EXPENSES_VALUE_KEY: None
+    context = {   ## declared outside of request.method for to be used both after and before submiting form and view html predict.html
+        INSURANCE_DATA_KEY: None, ## insurance_data : None
+        EXPENSES_VALUE_KEY: None  ## expenses: None
     }
 
     if request.method == 'POST':      ## accessed when html form sends request while submiting form 
                                       ## html form has inbuilt request sending methods Post, Get etc and action(eg - /predict)
                                       ## Corresponds to the HTTP POST or GET method; form data are included in the body of the form and sent to the server.
+       ## The html predict page will have form with fileds of the variables where we can type the text 
+       ## and this text when got submited (button) will call this POST mehtod where we can access
+       ## the data in the form we gave using below code given below
+       
         age = int(request.form['age'])
         children = int(request.form['children'])
         bmi = float(request.form['bmi'])
         sex = request.form['sex']
         smoker = request.form['smoker']
         region = request.form['region']
-        insurance_data = InsuranceData(age = age,
+
+        ## now we need to pass this data to InsuranceData class to predict the output
+        insurance_data_obj = InsuranceData(age = age,
                                      children = children,
                                      bmi = bmi,
                                      sex = sex,
@@ -82,11 +88,14 @@ def predict():
                                      region = region,
                                        ) 
         
-        insurance_df = insurance_data.get_insurance_input_data_frame() ## calling function inside hosuing class
+        insurance_df = insurance_data_obj.get_insurance_input_data_frame() ## calling function inside hosuing class
         premium_predictor = InsurancePredictor(model_dir=MODEL_DIR)      ## creating an object with intialization as model_dir
         expenses = premium_predictor.predict(X=insurance_df)   ## using the above obj to do preiction
+        
+        ## Now we need to pass the results predicted back to the HTML via context- Thats why predict.html has 2 sections
+        ## one to take the input for predciton asn next section to show the predcited output
         context = {
-            INSURANCE_DATA_KEY: insurance_data.get_insurance_data_as_dict(), ## FOR PASSING TO HTML PAGE VIA CONTEXT
+            INSURANCE_DATA_KEY: insurance_data_obj.get_insurance_data_as_dict(), ## FOR PASSING TO HTML PAGE VIA CONTEXT
             EXPENSES_VALUE_KEY: expenses,
         }
         return render_template('predict.html', context=context)

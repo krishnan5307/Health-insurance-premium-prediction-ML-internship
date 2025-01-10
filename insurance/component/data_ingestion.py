@@ -128,6 +128,14 @@ class DataIngestion:
             for train_index,test_index in split.split(insurance_data_frame, insurance_data_frame["premium_cat"]):
                 strat_train_set = insurance_data_frame.loc[train_index].drop(["premium_cat"],axis=1)
                 strat_test_set = insurance_data_frame.loc[test_index].drop(["premium_cat"],axis=1)
+            
+            """
+            -spliter: This is an instance of the StratifiedShuffleSplit class, which is a cross-validator used for creating stratified train-test splits.
+            -credit_data_frame: This is the DataFrame that you want to split into training and testing sets.
+            -credit_data_frame["premium_cat"]: This is the target variable or a categorical variable used for stratified splitting. 
+             The data will be split in a way that ensures a similar distribution of this variable in both the training and testing sets.
+            -split(credit_data_frame, credit_data_frame["premium_cat"]): This method generates indices for the train-test split based on the specified data and target variable.
+            """ 
 
             train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir,
                                             file_name)
